@@ -3,6 +3,7 @@ import DocsNav from '@/components/navbar.astro';
 import Sidebar from '@/components/sidebar.astro';
 import Button from '@/components/ui/button.astro';
 import { SECTIONS } from '@/lib/constants';
+
 import '@/styles/global.css';
 const { title, description = 'Documentation for nozz/ui Components' } =
   Astro.props;
@@ -38,7 +39,7 @@ const { title, description = 'Documentation for nozz/ui Components' } =
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
 
-    <!-- Favicon -->
+
     <link
       rel="icon"
       type="image/png"
@@ -46,14 +47,14 @@ const { title, description = 'Documentation for nozz/ui Components' } =
     />
     <link rel="apple-touch-icon" href="/images/icons/logo-base-256x256.png" />
 
-    <!-- Open Graph -->
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ui.nozz.dev" />
     <meta property="og:title" content={`${title} - nozz/ui`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/images/icons/logo-base-1200x1200.png" />
 
-    <!-- Twitter -->
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://ui.nozz.dev" />
     <meta name="twitter:title" content={`${title} - nozz/ui`} />
@@ -63,7 +64,7 @@ const { title, description = 'Documentation for nozz/ui Components' } =
       content="/images/icons/logo-base-1200x1200.png"
     />
 
-    <!-- Keywords -->
+
     <meta
       name="keywords"
       content="astro components, ui library, tailwindcss, web development, frontend, opensource"
@@ -72,26 +73,20 @@ const { title, description = 'Documentation for nozz/ui Components' } =
     <meta name="generator" content={Astro.generator} />
     <title>{`${title} - nozz/ui`}</title>
 
-    <!-- Preload critical assets -->
+
     <link rel="preload" as="image" href="/images/icons/logo-base-256x256.png" />
   </head>
-  <body class="min-h-screen antialiased bg-background text-foreground">
-    <!-- Navbar -->
+  <body>
     <DocsNav />
-
-    <div class="flex pt-16">
-      <!-- Sidebar - hidden on mobile, visible on md screens -->
-      <aside
-        class="fixed left-0 w-64 h-[calc(100vh-4rem)] overflow-y-auto border-r border-border bg-background hidden md:block"
-      >
+    <main class="container relative w-full max-w-7xl mx-auto">
+      <aside>
         <Sidebar sections={SECTIONS} />
       </aside>
-
-      <!-- Main Content - full width on mobile, adjusted margin on md screens -->
-      <main class="w-full p-4 md:ml-64 md:p-8 max-w-6xl">
+      <div
+        class="relative ml-0 min-h-screen gap-0 p-4 md:ml-[250px] md:p-6 lg:gap-10 xl:grid xl:grid-cols-[1fr,150px]"
+      >
         <slot />
 
-        <!-- Navigation Buttons -->
         <div class="flex justify-between mt-8 pt-4 border-t border-border">
           {
             SECTIONS.flatMap((section) => section.items).map(
@@ -149,9 +144,7 @@ const { title, description = 'Documentation for nozz/ui Components' } =
             )
           }
         </div>
-      </main>
-    </div>
-
-    <script src="../lib/console.ts"></script>
+      </div>
+    </main>
   </body>
 </html>

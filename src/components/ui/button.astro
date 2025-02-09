@@ -92,7 +92,6 @@ const buttonVariants = cva(
   }
 );
 
-// Define button props interface
 export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   class?: string;
   disabled?: boolean;
@@ -110,7 +109,6 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   onKeyDown?: (event: KeyboardEvent) => void;
 }
 
-// Define component props
 type Props = ButtonProps & (HTMLAttributes<'button'> | HTMLAttributes<'a'>);
 
 const {
@@ -137,10 +135,8 @@ const {
   ...rest
 } = Astro.props;
 
-// Determine element type and base props
 const Element = href ? 'a' : 'button-astro';
 
-// Prepare common props
 const commonProps = {
   class: cn(
     buttonVariants({
@@ -167,7 +163,6 @@ const commonProps = {
   ...rest,
 };
 
-// Prepare element-specific props
 const elementProps = {
   ...commonProps,
   ...(href

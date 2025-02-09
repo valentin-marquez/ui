@@ -15,8 +15,6 @@ const description =
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
 
-    <!-- Favicon -->
-
     <link
       rel="icon"
       type="image/png"
@@ -35,14 +33,13 @@ const description =
       sizes="1200x1200"
       href="/images/icons/logo-base-1200x1200.png"
     />
-    <!-- Open Graph -->
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ui.nozz.dev" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/images/icons/logo-base-1200x1200.png" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://ui.nozz.dev" />
     <meta name="twitter:title" content={title} />
@@ -52,7 +49,6 @@ const description =
       content="/images/icons/logo-base-1200x1200.png"
     />
 
-    <!-- Keywords -->
     <meta
       name="keywords"
       content="astro components, ui library, tailwindcss, web development, frontend, opensource"
@@ -61,13 +57,11 @@ const description =
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
-    <!-- Preload critical assets -->
     <link rel="preload" as="image" href="/images/icons/logo-base-256x256.png" />
   </head>
   <body
     class="min-h-screen antialiased bg-gradient-to-b from-background to-[hsl(var(--muted)/0.3)]"
   >
-    <!-- Sticky Navbar -->
     <nav class="sticky top-0 left-0 right-0 z-50">
       <div class="container mx-auto px-6 pt-6">
         <div class="flex items-center justify-center min-h-20">
@@ -75,7 +69,6 @@ const description =
             <div
               class="bg-gradient-to-b from-card dark:from-card to-background dark:to-[hsl(var(--popover))] w-full rounded-full px-8 py-4 flex items-center justify-between border border-border/50 shadow-[0_0_15px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_15px_hsl(var(--border)/0.15)]"
             >
-              <!-- Logo Section -->
               <Button
                 href="/"
                 class="flex items-center space-x-3 hover:opacity-90 transition-opacity"
@@ -94,7 +87,6 @@ const description =
                 <h1 class="font-semibold text-foreground text-lg">nozz/ui</h1>
               </Button>
 
-              <!-- Navigation Links -->
               <div class="hidden md:flex items-center space-x-2">
                 <Button href="/docs" variant="link">Docs</Button>
                 <Button href="#" variant="link">Components</Button>
@@ -105,7 +97,6 @@ const description =
       </div>
     </nav>
 
-    <!-- Main Content -->
     <main>
       <!-- 
         👋 Hey there curious developer!

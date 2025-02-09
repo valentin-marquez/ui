@@ -19,7 +19,6 @@ const {
   ...rest
 } = Astro.props;
 
-// Generate circles data
 const circles = Array.from({ length: numCircles }, (_, i) => ({
   size: mainCircleSize + i * 70,
   opacity: mainCircleOpacity - i * 0.03,

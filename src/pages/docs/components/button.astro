@@ -11,16 +11,13 @@ const stringify = import.meta.glob('/src/components/ui/button.astro', {
   eager: true,
   as: 'raw',
 })['/src/components/ui/button.astro'];
-
-console.log(stringify);
 ---
 
 <DocsLayout
   title="Button"
   description="Your interactive Swiss Army knife for user interactions. Now with 100% more sparkle ✨"
 >
-  <div class="space-y-8">
-    <!-- Installation -->
+  <div class="space-y-8 pb-8 pt-4 md:pt-8">
     <section>
       <h2 class="text-2xl font-bold mb-4">Installation</h2>
       <p class="mb-4">Copy this directly into your Astro project:</p>
@@ -30,31 +27,33 @@ console.log(stringify);
         title="Install Button"
         theme="github-dark-default"
         code={stringify}
-        meta="{1,3}"
         wrap
       />
     </section>
 
-    <!-- Basic Usage -->
     <section>
-      <h2 class="text-2xl font-bold mb-4">Basic Usage</h2>
+      <h2 class="text-2xl
+        font-bold
+        mb-4">Basic Usage</h2>
       <div class="mb-4 flex gap-2 flex-wrap">
         <Component>Default</Component>
         <Component variant="secondary">Secondary</Component>
         <Component variant="destructive">Destructive</Component>
       </div>
-      <Tabs>
-        <Tab title="Code">
-          ```astro
-          <Component>Default</Component>
-          <Component variant="secondary">Secondary</Component>
-          <Component variant="destructive">Destructive</Component>
-          ```
-        </Tab>
-      </Tabs>
+      <CodeBlock
+        lang="astro"
+        title="Basic Usage"
+        theme="github-dark-default"
+        code={`
+          <Button>Default</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="destructive">Destructive</Button>
+        `}
+        wrap
+        size="snippet"
+      />
     </section>
 
-    <!-- Variants -->
     <section>
       <h2 class="text-2xl font-bold mb-4">Flavors (Variants)</h2>
       <div class="mb-4 flex gap-2 flex-wrap">
@@ -65,21 +64,23 @@ console.log(stringify);
         <Component variant="ghost">Ghost</Component>
         <Component variant="link">Link</Component>
       </div>
-      <Tabs>
-        <Tab title="Code">
-          ```astro
-          <Component variant="default">Default</Component>
-          <Component variant="secondary">Secondary</Component>
-          <Component variant="destructive">Destructive</Component>
-          <Component variant="outline">Outline</Component>
-          <Component variant="ghost">Ghost</Component>
-          <Component variant="link">Link</Component>
-          ```
-        </Tab>
-      </Tabs>
+      <CodeBlock
+        lang="astro"
+        title="Variants Example"
+        theme="github-dark-default"
+        code={`
+          <Button variant="default">Default</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="destructive">Destructive</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="link">Link</Button>
+        `}
+        size="xs"
+        wrap
+      />
     </section>
 
-    <!-- Sizes -->
     <section>
       <h2 class="text-2xl font-bold mb-4">Sizes Matter</h2>
       <div class="mb-4 flex items-end gap-2 flex-wrap">
@@ -89,137 +90,209 @@ console.log(stringify);
         <Component size="xl">X-Large</Component>
         <Component size="icon">🔔</Component>
       </div>
-      <Tabs>
-        <Tab title="Code">
-          ```astro
-          <Component size="sm">Small</Component>
-          <Component size="md">Medium</Component>
-          <Component size="lg">Large</Component>
-          <Component size="xl">X-Large</Component>
-          <Component size="icon">🔔</Component>
-          ```
-        </Tab>
-      </Tabs>
+      <CodeBlock
+        lang="astro"
+        title="Size Example"
+        theme="github-dark-default"
+        code={`
+          <Button size="sm">Small</Button>
+          <Button size="md">Medium</Button>
+          <Button size="lg">Large</Button>
+          <Button size="xl">X-Large</Button>
+          <Button size="icon">🔔</Button>
+        `}
+        wrap
+        size="xs"
+      />
     </section>
 
-    <!-- States -->
     <section>
       <h2 class="text-2xl font-bold mb-4">State of Affairs</h2>
       <div class="mb-4 flex gap-2 flex-wrap">
         <Component state="success">Success</Component>
         <Component state="error">Error</Component>
-        <Component state="pressed" aria-pressed="true">Pressed</Component>
-        <Component state="selected" aria-selected="true">Selected</Component>
       </div>
-      <Tabs>
-        <Tab title="Code">
-          ```astro
-          <Component state="success">Success</Component>
-          <Component state="error">Error</Component>
-          <Component state="pressed" aria-pressed="true">Pressed</Component>
-          <Component state="selected" aria-selected="true">Selected</Component>
-          ```
-        </Tab>
-      </Tabs>
+      <CodeBlock
+        lang="astro"
+        title="State Example"
+        theme="github-dark-default"
+        code={` 
+        <Button state="success">Success</Button>
+        <Button state="error">Error</Button>
+        `}
+        wrap
+        size="tiny"
+      />
     </section>
-
-    <!-- Props Table -->
     <section>
       <h2 class="text-2xl font-bold mb-4">Prop-erties</h2>
-      <div class="overflow-x-auto">
-        <table class="min-w-full border-collapse">
-          <thead class="bg-gray-800">
-            <tr>
-              <th class="p-3 text-left">Prop</th>
-              <th class="p-3 text-left">Type</th>
-              <th class="p-3 text-left">Default</th>
-              <th class="p-3 text-left">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">variant</td>
-              <td class="p-3"
-                >default | secondary | destructive | outline | ghost | link</td
-              >
-              <td class="p-3">default</td>
-              <td class="p-3">Button visual style</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">size</td>
-              <td class="p-3">sm | md | lg | xl | icon</td>
-              <td class="p-3">md</td>
-              <td class="p-3">Size of the button</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">rounded</td>
-              <td class="p-3">none | sm | md | lg | full | left | right</td>
-              <td class="p-3">md</td>
-              <td class="p-3">Border radius</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">state</td>
-              <td class="p-3">success | error | pressed | selected</td>
-              <td class="p-3">-</td>
-              <td class="p-3">Visual state indicator</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">full</td>
-              <td class="p-3">boolean</td>
-              <td class="p-3">false</td>
-              <td class="p-3">Full width button</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">ripple</td>
-              <td class="p-3">boolean</td>
-              <td class="p-3">false</td>
-              <td class="p-3">Ripple effect on click</td>
-            </tr>
-            <tr class="border-b border-gray-700">
-              <td class="p-3">loading</td>
-              <td class="p-3">boolean</td>
-              <td class="p-3">false</td>
-              <td class="p-3">Show loading spinner</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <Tabs variant="pills" size="md">
+        <div slot="tab-list">
+          <Tab value="properties" title="Properties" />
+        </div>
+
+        <div slot="tab-content">
+          <div class="overflow-x-auto">
+            <table class="min-w-full border-collapse">
+              <thead class="bg-muted">
+                <tr>
+                  <th class="p-3 text-left text-muted-foreground">Prop</th>
+                  <th class="p-3 text-left text-muted-foreground">Type</th>
+                  <th class="p-3 text-left text-muted-foreground">Default</th>
+                  <th class="p-3 text-left text-muted-foreground"
+                    >Description</th
+                  >
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-border">
+                  <td class="p-3">variant</td>
+                  <td class="p-3"
+                    >default | secondary | destructive | outline | ghost | link</td
+                  >
+                  <td class="p-3">default</td>
+                  <td class="p-3">Button visual style</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">size</td>
+                  <td class="p-3">sm | md | lg | xl | icon</td>
+                  <td class="p-3">md</td>
+                  <td class="p-3">Size of the button</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">rounded</td>
+                  <td class="p-3">none | sm | md | lg | full | left | right</td>
+                  <td class="p-3">md</td>
+                  <td class="p-3">Border radius</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">state</td>
+                  <td class="p-3">success | error | pressed | selected</td>
+                  <td class="p-3">-</td>
+                  <td class="p-3">Visual state indicator</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">full</td>
+                  <td class="p-3">boolean</td>
+                  <td class="p-3">false</td>
+                  <td class="p-3">Full width button</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">ripple</td>
+                  <td class="p-3">boolean</td>
+                  <td class="p-3">false</td>
+                  <td class="p-3">Ripple effect on click</td>
+                </tr>
+                <tr class="border-b border-border">
+                  <td class="p-3">loading</td>
+                  <td class="p-3">boolean</td>
+                  <td class="p-3">false</td>
+                  <td class="p-3">Show loading spinner</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Tabs>
     </section>
 
-    <!-- Advanced Examples -->
     <section>
-      <h2 class="text-2xl font-bold mb-4">Fancy Combos</h2>
-      <div class="mb-4 flex gap-2 flex-wrap">
-        <Component variant="outline" size="lg" rounded="full" ripple>
-          Ripple Round
-        </Component>
-        <Component variant="ghost" size="icon" rounded="full"> 🚀 </Component>
-        <Component full loading loadingText="Processing...">
-          Full Width Loader
-        </Component>
+      <h2 class="text-2xl font-bold mb-4">Advanced Examples</h2>
+
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Interactive Elements</h3>
+          <div class="mb-4 flex gap-2 flex-wrap">
+            <Component variant="outline" size="lg" rounded="full" ripple>
+              Click for Ripple ✨
+            </Component>
+            <Component
+              variant="ghost"
+              size="icon"
+              rounded="full"
+              state="success"
+            >
+              🚀
+            </Component>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Loading States</h3>
+          <div class="mb-4 flex gap-2 flex-wrap">
+            <Component full loading loadingText="Processing payment...">
+              Purchase Now
+            </Component>
+            <Component
+              variant="secondary"
+              size="sm"
+              loading
+              loadingText="Sending..."
+            >
+              Send Message
+            </Component>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Complex Combinations</h3>
+          <div class="mb-4 flex flex-wrap">
+            <Component size="lg" variant="secondary" rounded="left">
+              Delete
+            </Component>
+            <Component size="lg" variant="secondary" rounded="none">
+              Success
+            </Component>
+            <Component size="lg" variant="secondary" rounded="right" ripple>
+              Cancel
+            </Component>
+          </div>
+        </div>
       </div>
-      <Tabs>
-        <Tab title="Code">
-          ```astro
-          <Component variant="outline" size="lg" rounded="full" ripple>
-            Ripple Round
-          </Component>
 
-          <Component variant="ghost" size="icon" rounded="full"> 🚀 </Component>
+      <CodeBlock
+        lang="astro"
+        title="Advanced Examples"
+        theme="github-dark-default"
+        code={`
+        <!-- Interactive Elements -->
+        <Button variant="outline" size="lg" rounded="full" ripple>
+        Click for Ripple ✨
+        </Button>
+        <Button variant="ghost" size="icon" rounded="full" state="success">
+        🚀
+        </Button>
 
-          <Component full loading loadingText="Processing...">
-            Full Width Loader
-          </Component>
-          ```
-        </Tab>
-      </Tabs>
+        <!-- Loading States -->
+        <Button full loading loadingText="Processing payment...">
+        Purchase Now
+        </Button>
+        <Button variant="secondary" size="sm" loading loadingText="Sending...">
+        Send Message
+        </Button>
+
+        <!-- Complex Combinations -->
+        <Button variant="destructive" size="lg" rounded="left">
+        Delete
+        </Button>
+        <Button variant="outline" size="lg" rounded="right" state="error">
+        Cancel
+        </Button>
+      `}
+        wrap
+        size="sm"
+      />
     </section>
 
     <!-- Accessibility Notes -->
-    <section class="bg-blue-900/20 p-4 rounded-lg">
-      <h2 class="text-xl font-bold mb-2">♿ Accessibility First</h2>
-      <p class="mb-2">We bake in accessibility like grandma bakes cookies:</p>
-      <ul class="list-disc pl-6">
+    <section class="bg-accent/20 border border-accent p-4 rounded-lg">
+      <h2 class="text-2xl font-bold mb-2 text-accent-foreground">
+        ♿ Accessibility First
+      </h2>
+      <p class="mb-2 text-foreground/90">
+        We bake in accessibility like grandma bakes cookies:
+      </p>
+      <ul class="list-disc pl-6 space-y-1 text-foreground/80">
         <li>Automatic ARIA attributes for states</li>
         <li>Keyboard navigation support (Enter/Space)</li>
         <li>Proper focus management</li>
