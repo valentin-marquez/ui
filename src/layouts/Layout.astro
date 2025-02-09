@@ -1,6 +1,7 @@
 ---
 import Button from '@/components/ui/button.astro';
 import '@/styles/global.css';
+import { Image } from 'astro:assets';
 
 const title = 'nozz/ui - Delightfully Simple Astro Components';
 const description =
@@ -15,13 +16,25 @@ const description =
     <meta name="description" content={description} />
 
     <!-- Favicon -->
+
     <link
       rel="icon"
       type="image/png"
+      sizes="32x32"
       href="/images/icons/logo-base-32x32.png"
     />
-    <link rel="apple-touch-icon" href="/images/icons/logo-base-256x256.png" />
-
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/images/icons/logo-base-256x256.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="1200x1200"
+      href="/images/icons/logo-base-1200x1200.png"
+    />
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ui.nozz.dev" />
@@ -71,10 +84,12 @@ const description =
                 aria-label="Go to homepage"
                 data-loading="false"
               >
-                <img
+                <Image
                   src="/images/icons/logo-base-32x32.png"
                   alt="Logo"
                   class="h-8 w-8"
+                  width={32}
+                  height={32}
                 />
                 <h1 class="font-semibold text-foreground text-lg">nozz/ui</h1>
               </Button>
