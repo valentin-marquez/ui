@@ -1,0 +1,82 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const backgroundVariants = cva(
+  [
+    'relative',
+    'w-full',
+    'h-full',
+    'transition-all',
+    'duration-300',
+    'ease-in-out',
+  ],
+  {
+    variants: {
+      variant: {
+        dots: [
+          '[background-image:radial-gradient(hsl(var(--foreground)/0.1)_1px,transparent_1px)]',
+          'dark:[background-image:radial-gradient(hsl(var(--foreground)/0.15)_1px,transparent_1px)]',
+        ],
+        grid: [
+          '[background-image:linear-gradient(hsl(var(--foreground)/0.1)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.1)_1px,transparent_1px)]',
+          'dark:[background-image:linear-gradient(hsl(var(--foreground)/0.15)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.15)_1px,transparent_1px)]',
+        ],
+        noise: [
+          'before:content-[""]',
+          'before:absolute',
+          'before:inset-0',
+          'before:opacity-30',
+          'before:dark:opacity-40',
+          'before:[background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC42NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgbnVtT2N0YXZlcz0iMiIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9IjAuNSIvPjwvc3ZnPg==")]',
+          'before:mix-blend-soft-light',
+        ],
+      },
+      size: {
+        sm: '[background-size:16px_16px]',
+        md: '[background-size:24px_24px]',
+        lg: '[background-size:32px_32px]',
+        xl: '[background-size:48px_48px]',
+      },
+    },
+    compoundVariants: [
+      {
+        variant: 'dots',
+        size: 'sm',
+        class: '[background-size:8px_8px]',
+      },
+      {
+        variant: 'dots',
+        size: 'md',
+        class: '[background-size:16px_16px]',
+      },
+      {
+        variant: 'grid',
+        size: 'sm',
+        class: '[background-size:16px_16px]',
+      },
+    ],
+    defaultVariants: {
+      variant: 'dots',
+      size: 'md',
+    },
+  }
+);
+
+export interface BackgroundProps
+  extends VariantProps<typeof backgroundVariants> {
+  class?: string;
+  id?: string;
+}
+
+type Props = BackgroundProps & HTMLAttributes<'div'>;
+
+const { variant, size, class: className, ...rest } = Astro.props;
+
+const backgroundClasses = cn(backgroundVariants({ variant, size }), className);
+---
+
+<div class={backgroundClasses} {...rest}>
+  <slot />
+</div>

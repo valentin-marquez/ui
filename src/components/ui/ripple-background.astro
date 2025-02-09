@@ -1,0 +1,72 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cn } from '@/lib/utils';
+
+interface Props extends HTMLAttributes<'div'> {
+  class?: string;
+  mainCircleSize?: number;
+  mainCircleOpacity?: number;
+  numCircles?: number;
+  duration?: number;
+}
+
+const {
+  mainCircleSize = 210,
+  mainCircleOpacity = 0.24,
+  numCircles = 8,
+  duration = 2,
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Generate circles data
+const circles = Array.from({ length: numCircles }, (_, i) => ({
+  size: mainCircleSize + i * 70,
+  opacity: mainCircleOpacity - i * 0.03,
+  delay: i * 0.06,
+  borderOpacity: (5 + i * 5) / 100,
+  borderStyle: i === numCircles - 1 ? 'dashed' : 'solid',
+}));
+---
+
+<div
+  class={cn(
+    'pointer-events-none absolute inset-0 select-none [mask-image:linear-gradient(to_bottom,white,transparent)]',
+    className
+  )}
+  {...rest}
+>
+  {
+    circles.map((circle, i) => (
+      <div
+        class="absolute rounded-full border bg-foreground/25"
+        style={{
+          '--duration': `${duration}s`,
+          '--i': i,
+          width: `${circle.size}px`,
+          height: `${circle.size}px`,
+          opacity: circle.opacity,
+          animationDelay: `${circle.delay}s`,
+          borderStyle: circle.borderStyle,
+          borderWidth: '1px',
+          borderColor: `hsl(var(--foreground) / ${circle.borderOpacity})`,
+          top: '50%',
+          left: '50%',
+          animation: 'ripple var(--duration) ease calc(var(--i)*.2s) infinite',
+        }}
+      />
+    ))
+  }
+</div>
+
+<style>
+  @keyframes ripple {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+</style>

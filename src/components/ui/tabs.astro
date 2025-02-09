@@ -1,0 +1,231 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cn } from '@/lib/utils';
+
+// Types for Tab props
+export interface TabProps extends HTMLAttributes<'button'> {
+  value: string;
+  disabled?: boolean;
+  class?: string;
+}
+
+// Types for Tabs props
+export interface TabsProps extends HTMLAttributes<'div'> {
+  defaultValue?: string;
+  orientation?: 'horizontal' | 'vertical';
+  class?: string;
+  onValueChange?: (value: string) => void;
+}
+
+// Get props for each component
+const {
+  defaultValue,
+  orientation = 'horizontal',
+  class: className,
+  onValueChange,
+  ...props
+} = Astro.props as TabsProps;
+---
+
+<div
+  class={cn(
+    'tabs-root',
+    orientation === 'vertical' ? 'flex' : 'inline-flex flex-col',
+    className
+  )}
+  {...props}
+>
+  <div
+    class={cn(
+      'tabs-list relative',
+      orientation === 'horizontal'
+        ? 'flex space-x-1 border-b border-border'
+        : 'flex-col space-y-1 border-r border-border'
+    )}
+    role="tablist"
+    aria-orientation={orientation}
+    data-orientation={orientation}
+  >
+    <slot name="tab-list" />
+    <div
+      class={cn(
+        'absolute bg-primary transition-all duration-200',
+        orientation === 'horizontal'
+          ? 'bottom-0 h-0.5 left-0'
+          : 'right-0 w-0.5 top-0'
+      )}
+      data-active-indicator
+    >
+    </div>
+  </div>
+  <div class="tabs-content mt-2">
+    <slot name="tab-content" />
+  </div>
+</div>
+
+<script>
+  class TabsManager {
+    private root: HTMLElement;
+    private tabs: HTMLElement[];
+    private panels: HTMLElement[];
+    private indicator: HTMLElement | null;
+    private activeTab: HTMLElement | null = null;
+    private orientation: 'horizontal' | 'vertical';
+
+    constructor(root: HTMLElement) {
+      this.root = root;
+      this.tabs = Array.from(root.querySelectorAll('[role="tab"]'));
+      this.panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+      this.indicator = root.querySelector('[data-active-indicator]');
+      this.orientation =
+        (root
+          .querySelector('[role="tablist"]')
+          ?.getAttribute('data-orientation') as 'horizontal' | 'vertical') ||
+        'horizontal';
+
+      this.init();
+    }
+
+    private init() {
+      // Set initial active tab
+      const defaultTab = this.tabs.find((tab) => !tab.hasAttribute('disabled'));
+      if (defaultTab) {
+        this.activateTab(defaultTab as HTMLElement);
+      }
+
+      // Add click handlers
+      this.tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          if (!tab.hasAttribute('disabled')) {
+            this.activateTab(tab as HTMLElement);
+          }
+        });
+
+        // Keyboard navigation
+        tab.addEventListener('keydown', (e) => {
+          const targetTab = this.getTargetTab(e);
+          if (targetTab) {
+            e.preventDefault();
+            this.activateTab(targetTab);
+          }
+        });
+      });
+    }
+
+    private activateTab(tab: HTMLElement) {
+      if (this.activeTab === tab) return;
+
+      // Update tabs
+      this.tabs.forEach((t) => {
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tab.focus();
+
+      // Update panels
+      const panelId = tab.getAttribute('aria-controls');
+      this.panels.forEach((panel) => {
+        panel.hidden = panel.id !== panelId;
+      });
+
+      // Move indicator
+      if (this.indicator) {
+        const tabRect = tab.getBoundingClientRect();
+        const listRect = this.root
+          .querySelector('[role="tablist"]')!
+          .getBoundingClientRect();
+
+        if (this.orientation === 'horizontal') {
+          this.indicator.style.left = `${tabRect.left - listRect.left}px`;
+          this.indicator.style.width = `${tabRect.width}px`;
+        } else {
+          this.indicator.style.top = `${tabRect.top - listRect.top}px`;
+          this.indicator.style.height = `${tabRect.height}px`;
+        }
+      }
+
+      this.activeTab = tab;
+
+      // Trigger value change event
+      const value = tab.getAttribute('data-value');
+      if (value) {
+        const event = new CustomEvent('tabs-change', { detail: { value } });
+        this.root.dispatchEvent(event);
+      }
+    }
+
+    private getTargetTab(e: KeyboardEvent): HTMLElement | null {
+      const target = e.target as HTMLElement;
+      const currentIdx = this.tabs.indexOf(target);
+
+      if (currentIdx === -1) return null;
+
+      let nextIdx: number | null = null;
+
+      if (this.orientation === 'horizontal') {
+        switch (e.key) {
+          case 'ArrowLeft':
+            nextIdx = currentIdx - 1;
+            break;
+          case 'ArrowRight':
+            nextIdx = currentIdx + 1;
+            break;
+          case 'Home':
+            nextIdx = 0;
+            break;
+          case 'End':
+            nextIdx = this.tabs.length - 1;
+            break;
+        }
+      } else {
+        switch (e.key) {
+          case 'ArrowUp':
+            nextIdx = currentIdx - 1;
+            break;
+          case 'ArrowDown':
+            nextIdx = currentIdx + 1;
+            break;
+          case 'Home':
+            nextIdx = 0;
+            break;
+          case 'End':
+            nextIdx = this.tabs.length - 1;
+            break;
+        }
+      }
+
+      if (nextIdx !== null) {
+        nextIdx = this.getNextEnabledTab(nextIdx);
+        return nextIdx !== null ? (this.tabs[nextIdx] as HTMLElement) : null;
+      }
+
+      return null;
+    }
+
+    private getNextEnabledTab(idx: number): number | null {
+      // Wrap around
+      if (idx < 0) idx = this.tabs.length - 1;
+      if (idx >= this.tabs.length) idx = 0;
+
+      const startIdx = idx;
+
+      do {
+        if (!this.tabs[idx].hasAttribute('disabled')) {
+          return idx;
+        }
+        idx = (idx + 1) % this.tabs.length;
+      } while (idx !== startIdx);
+
+      return null;
+    }
+  }
+
+  // Initialize all tab components
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.tabs-root').forEach((root) => {
+      new TabsManager(root as HTMLElement);
+    });
+  });
+</script>

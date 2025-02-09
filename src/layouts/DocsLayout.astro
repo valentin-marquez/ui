@@ -1,0 +1,157 @@
+---
+import DocsNav from '@/components/navbar.astro';
+import Sidebar from '@/components/sidebar.astro';
+import Button from '@/components/ui/button.astro';
+import { SECTIONS } from '@/lib/constants';
+import '@/styles/global.css';
+const { title, description = 'Documentation for nozz/ui Components' } =
+  Astro.props;
+---
+
+<script is:inline>
+  const getThemePreference = () => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  };
+  const isDark = getThemePreference() === 'dark';
+  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+  if (typeof localStorage !== 'undefined') {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  }
+</script>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/logo-base-32x32.png"
+    />
+    <link rel="apple-touch-icon" href="/images/icons/logo-base-256x256.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ui.nozz.dev" />
+    <meta property="og:title" content={`${title} - nozz/ui`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/icons/logo-base-1200x1200.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://ui.nozz.dev" />
+    <meta name="twitter:title" content={`${title} - nozz/ui`} />
+    <meta name="twitter:description" content={description} />
+    <meta
+      name="twitter:image"
+      content="/images/icons/logo-base-1200x1200.png"
+    />
+
+    <!-- Keywords -->
+    <meta
+      name="keywords"
+      content="astro components, ui library, tailwindcss, web development, frontend, opensource"
+    />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{`${title} - nozz/ui`}</title>
+
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="/images/icons/logo-base-256x256.png" />
+  </head>
+  <body class="min-h-screen antialiased bg-background text-foreground">
+    <!-- Navbar -->
+    <DocsNav />
+
+    <div class="flex pt-16">
+      <!-- Sidebar - hidden on mobile, visible on md screens -->
+      <aside
+        class="fixed left-0 w-64 h-[calc(100vh-4rem)] overflow-y-auto border-r border-border bg-background hidden md:block"
+      >
+        <Sidebar sections={SECTIONS} />
+      </aside>
+
+      <!-- Main Content - full width on mobile, adjusted margin on md screens -->
+      <main class="w-full p-4 md:ml-64 md:p-8 max-w-6xl">
+        <slot />
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-8 pt-4 border-t border-border">
+          {
+            SECTIONS.flatMap((section) => section.items).map(
+              (item, index, array) => {
+                const currentPath = Astro.url.pathname;
+                if (item.href === currentPath) {
+                  return (
+                    <div class="flex w-full">
+                      {index > 0 ? (
+                        <div class="flex w-full justify-between">
+                          <Button
+                            href={array[index - 1].href}
+                            variant="ghost"
+                            class="gap-2 text-sm md:text-base"
+                          >
+                            <span>←</span>
+                            <span class="hidden sm:inline">
+                              {array[index - 1].title}
+                            </span>
+                          </Button>
+                          {index < array.length - 1 && (
+                            <Button
+                              href={array[index + 1].href}
+                              variant="ghost"
+                              class="gap-2 text-sm md:text-base"
+                            >
+                              <span class="hidden sm:inline">
+                                {array[index + 1].title}
+                              </span>
+                              <span>→</span>
+                            </Button>
+                          )}
+                        </div>
+                      ) : (
+                        <div class="flex w-full justify-end">
+                          {index < array.length - 1 && (
+                            <Button
+                              href={array[index + 1].href}
+                              variant="ghost"
+                              class="gap-2 text-sm md:text-base"
+                            >
+                              <span class="hidden sm:inline">
+                                {array[index + 1].title}
+                              </span>
+                              <span>→</span>
+                            </Button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                return null;
+              }
+            )
+          }
+        </div>
+      </main>
+    </div>
+
+    <script src="../lib/console.ts"></script>
+  </body>
+</html>

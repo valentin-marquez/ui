@@ -1,22 +1,105 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import Button from '@/components/ui/button.astro';
+import '@/styles/global.css';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+const title = 'nozz/ui - Delightfully Simple Astro Components';
+const description =
+  'A zero-dependency component library for Astro. Just Tailwind, JavaScript and good vibes. Copy, paste and ship! 🚀';
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/logo-base-32x32.png"
+    />
+    <link rel="apple-touch-icon" href="/images/icons/logo-base-256x256.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ui.nozz.dev" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/icons/logo-base-1200x1200.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://ui.nozz.dev" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta
+      name="twitter:image"
+      content="/images/icons/logo-base-1200x1200.png"
+    />
+
+    <!-- Keywords -->
+    <meta
+      name="keywords"
+      content="astro components, ui library, tailwindcss, web development, frontend, opensource"
+    />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="/images/icons/logo-base-256x256.png" />
+  </head>
+  <body
+    class="min-h-screen antialiased bg-gradient-to-b from-background to-[hsl(var(--muted)/0.3)]"
+  >
+    <!-- Sticky Navbar -->
+    <nav class="sticky top-0 left-0 right-0 z-50">
+      <div class="container mx-auto px-6 pt-6">
+        <div class="flex items-center justify-center min-h-20">
+          <div class="w-full max-w-7xl">
+            <div
+              class="bg-gradient-to-b from-card dark:from-card to-background dark:to-[hsl(var(--popover))] w-full rounded-full px-8 py-4 flex items-center justify-between border border-border/50 shadow-[0_0_15px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_15px_hsl(var(--border)/0.15)]"
+            >
+              <!-- Logo Section -->
+              <Button
+                href="/"
+                class="flex items-center space-x-3 hover:opacity-90 transition-opacity"
+                variant="ghost"
+                rounded="full"
+                aria-label="Go to homepage"
+                data-loading="false"
+              >
+                <img
+                  src="/images/icons/logo-base-32x32.png"
+                  alt="Logo"
+                  class="h-8 w-8"
+                />
+                <h1 class="font-semibold text-foreground text-lg">nozz/ui</h1>
+              </Button>
+
+              <!-- Navigation Links -->
+              <div class="hidden md:flex items-center space-x-2">
+                <Button href="/docs" variant="link">Docs</Button>
+                <Button href="#" variant="link">Components</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- 
+        👋 Hey there curious developer!
+        No dependencies, no problems, just copy-paste happiness.
+        Built with ❤️ using Astro + Tailwind
+      -->
+      <slot />
+    </main>
+
+    <script src="../lib/console.ts"></script>
+  </body>
+</html>

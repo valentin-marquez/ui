@@ -1,11 +1,46 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Button from '@/components/ui/button.astro';
+import Layout from '@/layouts/Layout.astro';
+import Background from '@/components/ui/background.astro';
+import RippleBackground from '@/components/ui/ripple-background.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<Background>
+  <Layout>
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="text-center space-y-12">
+        <h2
+          class="text-5xl font-bold tracking-tight text-foreground sm:text-6xl"
+        >
+          Beautiful Components
+          <span class="text-primary">for Astro</span>
+        </h2>
+
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Zero dependencies. Just copy, paste and ship. Built with Tailwind CSS
+          and love.
+        </p>
+
+        <div class="flex justify-center gap-4">
+          <Button variant="default" size="lg"> Get Started </Button>
+          <Button variant="outline" size="lg"> View on GitHub </Button>
+        </div>
+      </div>
+
+      <div class="mt-24 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          [1, 2, 3].map((i) => (
+            <div class="rounded-lg border bg-card p-8 shadow-sm transition-all hover:shadow-md">
+              <h3 class="text-xl font-semibold text-card-foreground">
+                Feature {i}
+              </h3>
+              <p class="mt-2 text-muted-foreground">
+                Modern, accessible, and ready to use in production.
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Layout>
+</Background>

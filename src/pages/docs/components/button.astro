@@ -1,0 +1,230 @@
+---
+import Component from '@/components/ui/button.astro';
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import Tab from '@/components/ui/tab.astro';
+import Tabs from '@/components/ui/tabs.astro';
+
+import CodeBlock from '@/components/ui/code-block.astro';
+import { renderAstroComponent } from '@/lib/astro-container';
+
+const stringify = import.meta.glob('/src/components/ui/button.astro', {
+  eager: true,
+  as: 'raw',
+})['/src/components/ui/button.astro'];
+
+console.log(stringify);
+---
+
+<DocsLayout
+  title="Button"
+  description="Your interactive Swiss Army knife for user interactions. Now with 100% more sparkle ✨"
+>
+  <div class="space-y-8">
+    <!-- Installation -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Installation</h2>
+      <p class="mb-4">Copy this directly into your Astro project:</p>
+
+      <CodeBlock
+        lang="astro"
+        title="Install Button"
+        theme="github-dark-default"
+        code={stringify}
+        meta="{1,3}"
+        wrap
+      />
+    </section>
+
+    <!-- Basic Usage -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Basic Usage</h2>
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <Component>Default</Component>
+        <Component variant="secondary">Secondary</Component>
+        <Component variant="destructive">Destructive</Component>
+      </div>
+      <Tabs>
+        <Tab title="Code">
+          ```astro
+          <Component>Default</Component>
+          <Component variant="secondary">Secondary</Component>
+          <Component variant="destructive">Destructive</Component>
+          ```
+        </Tab>
+      </Tabs>
+    </section>
+
+    <!-- Variants -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Flavors (Variants)</h2>
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <Component variant="default">Default</Component>
+        <Component variant="secondary">Secondary</Component>
+        <Component variant="destructive">Destructive</Component>
+        <Component variant="outline">Outline</Component>
+        <Component variant="ghost">Ghost</Component>
+        <Component variant="link">Link</Component>
+      </div>
+      <Tabs>
+        <Tab title="Code">
+          ```astro
+          <Component variant="default">Default</Component>
+          <Component variant="secondary">Secondary</Component>
+          <Component variant="destructive">Destructive</Component>
+          <Component variant="outline">Outline</Component>
+          <Component variant="ghost">Ghost</Component>
+          <Component variant="link">Link</Component>
+          ```
+        </Tab>
+      </Tabs>
+    </section>
+
+    <!-- Sizes -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Sizes Matter</h2>
+      <div class="mb-4 flex items-end gap-2 flex-wrap">
+        <Component size="sm">Small</Component>
+        <Component size="md">Medium</Component>
+        <Component size="lg">Large</Component>
+        <Component size="xl">X-Large</Component>
+        <Component size="icon">🔔</Component>
+      </div>
+      <Tabs>
+        <Tab title="Code">
+          ```astro
+          <Component size="sm">Small</Component>
+          <Component size="md">Medium</Component>
+          <Component size="lg">Large</Component>
+          <Component size="xl">X-Large</Component>
+          <Component size="icon">🔔</Component>
+          ```
+        </Tab>
+      </Tabs>
+    </section>
+
+    <!-- States -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">State of Affairs</h2>
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <Component state="success">Success</Component>
+        <Component state="error">Error</Component>
+        <Component state="pressed" aria-pressed="true">Pressed</Component>
+        <Component state="selected" aria-selected="true">Selected</Component>
+      </div>
+      <Tabs>
+        <Tab title="Code">
+          ```astro
+          <Component state="success">Success</Component>
+          <Component state="error">Error</Component>
+          <Component state="pressed" aria-pressed="true">Pressed</Component>
+          <Component state="selected" aria-selected="true">Selected</Component>
+          ```
+        </Tab>
+      </Tabs>
+    </section>
+
+    <!-- Props Table -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Prop-erties</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse">
+          <thead class="bg-gray-800">
+            <tr>
+              <th class="p-3 text-left">Prop</th>
+              <th class="p-3 text-left">Type</th>
+              <th class="p-3 text-left">Default</th>
+              <th class="p-3 text-left">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">variant</td>
+              <td class="p-3"
+                >default | secondary | destructive | outline | ghost | link</td
+              >
+              <td class="p-3">default</td>
+              <td class="p-3">Button visual style</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">size</td>
+              <td class="p-3">sm | md | lg | xl | icon</td>
+              <td class="p-3">md</td>
+              <td class="p-3">Size of the button</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">rounded</td>
+              <td class="p-3">none | sm | md | lg | full | left | right</td>
+              <td class="p-3">md</td>
+              <td class="p-3">Border radius</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">state</td>
+              <td class="p-3">success | error | pressed | selected</td>
+              <td class="p-3">-</td>
+              <td class="p-3">Visual state indicator</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">full</td>
+              <td class="p-3">boolean</td>
+              <td class="p-3">false</td>
+              <td class="p-3">Full width button</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">ripple</td>
+              <td class="p-3">boolean</td>
+              <td class="p-3">false</td>
+              <td class="p-3">Ripple effect on click</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="p-3">loading</td>
+              <td class="p-3">boolean</td>
+              <td class="p-3">false</td>
+              <td class="p-3">Show loading spinner</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Advanced Examples -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Fancy Combos</h2>
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <Component variant="outline" size="lg" rounded="full" ripple>
+          Ripple Round
+        </Component>
+        <Component variant="ghost" size="icon" rounded="full"> 🚀 </Component>
+        <Component full loading loadingText="Processing...">
+          Full Width Loader
+        </Component>
+      </div>
+      <Tabs>
+        <Tab title="Code">
+          ```astro
+          <Component variant="outline" size="lg" rounded="full" ripple>
+            Ripple Round
+          </Component>
+
+          <Component variant="ghost" size="icon" rounded="full"> 🚀 </Component>
+
+          <Component full loading loadingText="Processing...">
+            Full Width Loader
+          </Component>
+          ```
+        </Tab>
+      </Tabs>
+    </section>
+
+    <!-- Accessibility Notes -->
+    <section class="bg-blue-900/20 p-4 rounded-lg">
+      <h2 class="text-xl font-bold mb-2">♿ Accessibility First</h2>
+      <p class="mb-2">We bake in accessibility like grandma bakes cookies:</p>
+      <ul class="list-disc pl-6">
+        <li>Automatic ARIA attributes for states</li>
+        <li>Keyboard navigation support (Enter/Space)</li>
+        <li>Proper focus management</li>
+        <li>Screen reader-friendly loading states</li>
+      </ul>
+    </section>
+  </div>
+</DocsLayout>

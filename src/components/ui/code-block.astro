@@ -1,0 +1,150 @@
+---
+import { Code } from 'astro:components';
+import type { ComponentProps } from 'astro/types';
+import { cn } from '@/lib/utils';
+import Button from './button.astro';
+
+type Props = ComponentProps<typeof Code> & {
+  title?: string;
+  class?: string;
+};
+
+const { title, class: className, ...props } = Astro.props;
+---
+
+<div
+  class={cn(
+    'relative rounded-lg overflow-hidden border border-border',
+    'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75',
+    'max-h-[32rem] overflow-y-auto',
+    className
+  )}
+>
+  {/* Window Header */}
+  <div class="flex items-center px-4 py-2 bg-muted/50 border-b border-border">
+    {/* Window Controls */}
+    <div class="flex items-center space-x-2">
+      <div class="w-3 h-3 rounded-full bg-red-500"></div>
+      <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+    </div>
+
+    {/* File name/title */}
+    {
+      title && (
+        <span class="ml-4 text-sm text-muted-foreground font-medium">
+          {title}
+        </span>
+      )
+    }
+
+    {/* Copy Button */}
+    <Button
+      variant="ghost"
+      size="sm"
+      rounded="md"
+      class="ml-auto"
+      data-copy-button
+      aria-label="Copy code"
+    >
+      <span class="sr-only">Copy</span>
+      <svg
+        data-copy-icon
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path
+          d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+      </svg>
+      <svg
+        data-check-icon
+        class="hidden"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </Button>
+  </div>
+
+  <Code {...props} class="overflow-x-auto" />
+</div>
+
+<script>
+  class CodeBlock {
+    private element: HTMLElement;
+    private copyButton: HTMLButtonElement | null;
+    private copyIcon: SVGElement | null;
+    private checkIcon: SVGElement | null;
+    private code: string;
+
+    constructor(element: HTMLElement) {
+      this.element = element;
+      this.copyButton = element.querySelector('[data-copy-button]');
+      this.copyIcon = element.querySelector('[data-copy-icon]');
+      this.checkIcon = element.querySelector('[data-check-icon]');
+      this.code = element.querySelector('pre')?.textContent?.trim() || '';
+
+      this.init();
+    }
+
+    private init() {
+      if (!this.copyButton) return;
+
+      this.copyButton.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(this.code);
+          this.showCopySuccess();
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    }
+
+    private showCopySuccess() {
+      if (!this.copyIcon || !this.checkIcon || !this.copyButton) return;
+
+      this.copyIcon.classList.add('hidden');
+      this.checkIcon.classList.remove('hidden');
+      this.copyButton.classList.add('text-green-500');
+
+      setTimeout(() => {
+        this.copyIcon?.classList.remove('hidden');
+        this.checkIcon?.classList.add('hidden');
+        this.copyButton?.classList.remove('text-green-500');
+      }, 2000);
+    }
+  }
+
+  // Initialize all code blocks
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-copy-button]').forEach((element) => {
+      new CodeBlock(element.closest('div') as HTMLElement);
+    });
+  });
+</script>
+
+<style>
+  :global(.astro-code) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground-30) var(--muted);
+  }
+
+  :global(.astro-code:hover) {
+    scrollbar-color: var(--muted-) var(--muted);
+  }
+</style>
