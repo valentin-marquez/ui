@@ -1,0 +1,128 @@
+---
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const rippleVariants = cva(
+  "pointer-events-none fixed inset-0 select-none overflow-hidden opacity-0 animate-fade-in",
+  {
+    variants: {
+      size: {
+        sm: "scale-75",
+        md: "scale-100",
+        lg: "scale-125",
+      },
+      variant: {
+        default: "[--ripple-color:var(--foreground)]",
+        primary: "[--ripple-color:var(--primary)]",
+        secondary: "[--ripple-color:var(--secondary)]",
+        muted: "[--ripple-color:var(--muted)]",
+        destructive: "[--ripple-color:var(--destructive)]",
+      },
+      border: {
+        none: "",
+        solid: "border-solid",
+        dashed: "border-dashed",
+        dotted: "border-dotted",
+        double: "border-double",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+      variant: "default",
+      border: "none",
+    },
+  },
+);
+
+const rippleCircleVariants = cva(
+  "absolute left-1/2 top-1/2 transform-gpu rounded-full border border-opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "border-[hsl(var(--foreground))]",
+        primary: "border-[hsl(var(--primary))]",
+        secondary: "border-[hsl(var(--secondary))]",
+        muted: "border-[hsl(var(--muted))]",
+        destructive: "border-[hsl(var(--destructive))]",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+);
+
+interface Props extends VariantProps<typeof rippleVariants> {
+  class?: string;
+  rippleSize?: number;
+  opacity?: number;
+  circles?: number;
+  duration?: number;
+}
+
+const {
+  class: className,
+  size,
+  variant,
+  border,
+  rippleSize = 210,
+  opacity = 0.24,
+  circles = 8,
+  duration = 2,
+} = Astro.props;
+
+const rippleCircles = Array.from({ length: circles }, (_, i) => ({
+  size: rippleSize + i * 70,
+  opacity: Math.max(0.03, opacity - i * 0.03),
+  delay: i * 0.06,
+}));
+---
+
+<div
+  class={cn(rippleVariants({ size, variant, border }), className)}
+  aria-hidden="true"
+>
+  <div class="relative h-full w-full">
+    {
+      rippleCircles.map((circle) => (
+        <div
+          class={rippleCircleVariants({ variant })}
+          style={{
+            width: `${circle.size}px`,
+            height: `${circle.size}px`,
+            opacity: circle.opacity,
+            "--delay": `${circle.delay + 0.3}s`,
+            "--duration": `${duration}s`,
+            backgroundColor: `hsl(var(--ripple-color) / 0.25)`,
+            transform: "translate(-50%, -50%)",
+            animation:
+              "ripple-effect var(--duration) ease-in-out calc(var(--delay)) infinite",
+          }}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  @keyframes ripple-effect {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+</style>

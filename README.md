@@ -1,4 +1,4 @@
-# 🚀 Nozz UI for Astro
+# 🚀 nozz/ui for Astro
 
 > Beautiful, copy-pasteable components for your Astro projects. Built with Tailwind CSS and sprinkled with developer joy! ✨
 
@@ -49,25 +49,6 @@ import Button from '@/components/ui/button.astro';
 </Button>
 ```
 
-## 🎨 Components
-
-Here's what we've got cooking:
-
-- 🔘 **Button**: More variants than a coffee shop menu
-- 🎯 **Background**: Gorgeous gradients and patterns
-- 🌊 **Ripple Background**: Because static is boring
-- ...and more coming soon! 
-
-## 🎮 Features in Detail
-
-Each component comes with:
-
-- 🎯 Multiple variants and sizes
-- 🌓 Dark mode support out of the box
-- 🔄 Loading states and animations
-- ⌨️ Keyboard navigation
-- 🎨 Easy theming with CSS variables
-- 💪 TypeScript types for all props
 
 ## 🤝 Contributing
 
@@ -79,4 +60,4 @@ MIT - because sharing is caring! Use it, abuse it, make it better!
 
 ---
 
-Made with ❤️ and probably too much coffee ☕ by the Nozz UI team
+Made with ❤️ and probably too much coffee ☕ by the nozz/ui team

@@ -25,18 +25,71 @@ export const SECTIONS: SidebarSection[] = [
         ]
     },
     {
-        title: "Buttons",
+        title: "Primitives",
         items: [
             {
                 title: "Button",
                 href: "/docs/components/button",
-                description: "Multiple variants with full customization options",
+                description: "Basic interactive button component",
                 icon: "⚡",
+            },
+            {
+                title: "Input",
+                href: "/docs/components/input",
+                description: "Text input field component",
+                icon: "✍️",
+            },
+            {
+                title: "Label",
+                href: "/docs/components/label",
+                description: "Form label component",
+                icon: "🏷️",
+            },
+            {
+                title: "Checkbox",
+                href: "/docs/components/checkbox",
+                description: "Selectable checkbox component",
+                icon: "☑️",
+            },
+            {
+                title: "Textarea",
+                href: "/docs/components/textarea",
+                description: "Multiline text input component",
+                icon: "📝",
+            },
+            {
+                title: "Select",
+                href: "/docs/components/select",
+                description: "Dropdown selection component",
+                icon: "📊",
+            },
+            {
+                title: "Option",
+                href: "/docs/components/option",
+                description: "Select option component",
+                icon: "🔽",
             }
         ]
     },
     {
-        title: "Backgrounds",
+        title: "UI Components",
+        items: [
+            {
+                title: "Breadcrumb",
+                href: "/docs/components/breadcrumb",
+                description: "Navigation breadcrumb component",
+                icon: "🔗",
+            },
+            {
+                title: "Code Block",
+                href: "/docs/components/code-block",
+                description: "Syntax highlighted code display",
+                icon: "💻",
+            }
+        ]
+    },
+    {
+        title: "Utilities",
         items: [
             {
                 title: "Background",
@@ -45,7 +98,7 @@ export const SECTIONS: SidebarSection[] = [
                 icon: "🎨",
             },
             {
-                title: "Ripple Background",
+                title: "Ripple Effect",
                 href: "/docs/components/ripple-background",
                 description: "Interactive animated backgrounds",
                 icon: "💫",

@@ -1,21 +1,21 @@
 ---
-import Button from '@/components/ui/button.astro';
-import Layout from '@/layouts/Layout.astro';
-import Background from '@/components/ui/background.astro';
+import Button from "@/components/primitives/button.astro";
+import Layout from "@/layouts/Layout.astro";
+import Background from "@/components/utilities/background.astro";
 ---
 
 <Layout>
-  <Background>
+  <Background variant="dots" size="lg">
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <div class="text-center space-y-12">
         <h2
-          class="text-5xl font-bold tracking-tight text-foreground sm:text-6xl"
+          class="text-5xl text-pretty font-bold tracking-tight text-foreground sm:text-6xl"
         >
           Beautiful Components
           <span class="text-primary">for Astro</span>
         </h2>
 
-        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground text-pretty">
           Minimal dependencies. Copy, paste and ship production-ready
           components. Built with Tailwind CSS and developer experience in mind.
         </p>

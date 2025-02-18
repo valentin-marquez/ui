@@ -1,0 +1,215 @@
+---
+title: "Button"
+description: "A flexible and customizable button component supporting multiple variants, sizes, and states."
+category: "primitives"
+publishDate: "2024-02-15"
+status: "stable"
+i18nReady: false
+draft: false
+
+component:
+  name: "Button"
+  url: "/components/primitives/button"
+
+slug: "button"
+---
+
+import Button from "@/components/primitives/button.astro";
+import { Code } from 'astro-expressive-code/components';
+import Source from "@/components/docs/component-source.astro";
+import ComponentExample from "@/components/docs/component-example.astro";
+
+## Installation
+
+Copy the component to your project:
+
+<Source component="button" category="primitives" />
+
+## Usage
+
+Import and use the button component in your Astro files:
+
+<Code lang="astro" title="button.astro"  code={
+`---
+import Button from "@/components/ui/button.astro";
+---
+
+<Button>Click me</Button>
+`
+} />
+
+
+## Examples
+
+### Basic Button
+
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`<Button>Click me</Button>`}
+>
+  <Button onclick={()=>{
+    alert('clicked');
+  }}>Click me</Button>
+</ComponentExample>
+
+
+
+### Button Variants
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`
+<Button variant="default">Default</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+`}
+>
+  <div class="flex gap-2 flex-wrap">
+    <Button variant="default">Default</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="link">Link</Button>
+  </div>
+</ComponentExample>
+
+### Button Sizes
+
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`
+<Button size="sm">Small</Button>
+<Button size="default">Default</Button>
+<Button size="lg">Large</Button>
+<Button size="icon">+</Button>
+`}
+>
+  <div class="flex items-end gap-2">
+    <Button size="sm">Small</Button>
+    <Button size="default">Default</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon">+</Button>
+  </div>
+</ComponentExample>
+
+### Loading State
+
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`
+<Button loading loadingOptions={{ icon: true, message: "Loading..." }}>
+  Submit
+</Button>
+`}
+>
+  <Button loading loadingOptions={{ icon: true, message: "Loading..." }}>
+    Submit
+  </Button>
+</ComponentExample>
+### Link Button
+The Button component automatically transforms into a link when you provide an `href` prop, making it easy to create button-styled links:
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`<Button href="https://example.com" target="_blank">
+  External Link
+</Button>`}
+>
+  <Button href="https://example.com" target="_blank">
+    External Link
+  </Button>
+</ComponentExample>
+
+## Customization
+
+The Button component is built with Tailwind CSS and uses class-variance-authority (cva) for variant management. You can customize the component by:
+
+1. Modifying the `buttonVariants` definition in the component
+2. Passing additional classes via the `class` prop
+3. Adjusting the CSS variable `--shadow-color` for different shadow effects
+
+### Custom Example
+
+
+<ComponentExample 
+  lang="astro" 
+  title="button.astro"
+  code={`
+<Button 
+  variant="default" 
+  class="bg-gradient-to-r from-violet-500 to-fuchsia-500 
+    hover:from-violet-600 hover:to-fuchsia-600 
+    border-2 border-violet-300 
+    shadow-lg hover:shadow-xl
+    transform hover:scale-105 
+    transition-all duration-300 ease-in-out
+    hover:border-fuchsia-300
+    rounded-lg
+    backdrop-blur-sm
+    hover:rotate-1
+    animate-pulse hover:animate-none
+    relative
+    before:absolute before:inset-0 
+    before:bg-white/20 before:rounded-lg
+    before:opacity-0 hover:before:opacity-100
+    before:transition-opacity before:duration-300"
+>
+  <span class="flex items-center gap-2 relative z-10">
+    <svg class="w-5 h-5 animate-bounce" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4L20 20H4L12 4Z" fill="currentColor"/>
+    </svg>
+    <span class="font-semibold tracking-wide">Gradient Magic</span>
+  </span>
+</Button>
+`}
+>
+ 
+<Button 
+  variant="default" 
+  class="bg-gradient-to-r from-violet-500 to-fuchsia-500 
+    hover:from-violet-600 hover:to-fuchsia-600 
+    border-2 border-violet-300 
+    shadow-lg hover:shadow-xl
+    transform hover:scale-105 
+    transition-all duration-300 ease-in-out
+    hover:border-fuchsia-300
+    rounded-lg
+    backdrop-blur-sm
+    hover:rotate-1
+    animate-pulse hover:animate-none
+    relative
+    before:absolute before:inset-0 
+    before:bg-white/20 before:rounded-lg
+    before:opacity-0 hover:before:opacity-100
+    before:transition-opacity before:duration-300"
+>
+  <span class="flex items-center gap-2 relative z-10">
+    <svg class="w-5 h-5 animate-bounce" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4L20 20H4L12 4Z" fill="currentColor"/>
+    </svg>
+    <span class="font-semibold tracking-wide">Gradient Magic</span>
+  </span>
+</Button>
+</ComponentExample>
+
+## Accessibility
+
+The Button component implements proper accessibility features:
+
+- Uses semantic HTML (`<button>` or `<a>` depending on usage)
+- Includes focus states with visible focus rings
+- Properly handles disabled states
+- Maintains appropriate contrast ratios for all variants
+
+## Implementation Notes
+
+- The component automatically converts to an anchor tag when `href` is provided
+- Loading state disables button interactions and can display both a spinner and custom message
+- All transitions are optimized for performance with will-change and transition properties

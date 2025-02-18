@@ -1,0 +1,35 @@
+---
+import { Code } from "astro-expressive-code/components";
+import Tabs from "@/components/primitives/tabs.astro";
+import TabsList from "@/components/primitives/tabs-list.astro";
+import TabsTrigger from "@/components/primitives/tabs-trigger.astro";
+import TabsContent from "@/components/primitives/tabs-content.astro";
+import Background from "@/components/utilities/background.astro";
+import { ViewTransitions } from "astro:transitions";
+
+const { code, lang = "astro", title } = Astro.props;
+---
+
+<Tabs>
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+
+  <TabsContent
+    value="preview"
+    class={"relative border border-border rounded-lg preview flex min-h-[350px] w-full justify-center p-10 items-center overflow-hidden"}
+    transition:animate="slide"
+  >
+    <div class="w-full h-full flex items-center justify-center relative z-10">
+      <slot />
+    </div>
+
+    <div class="absolute inset-0 z-0">
+      <Background variant="dots" size="lg" />
+    </div>
+  </TabsContent>
+  <TabsContent value="code" class="" transition:animate="slide">
+    <Code class="h-full bg-card" {lang} {title} {code} />
+  </TabsContent>
+</Tabs>

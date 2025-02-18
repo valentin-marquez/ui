@@ -1,44 +1,67 @@
 ---
-import DocsNav from '@/components/navbar.astro';
-import Sidebar from '@/components/sidebar.astro';
-import Button from '@/components/ui/button.astro';
-import { SECTIONS } from '@/lib/constants';
+import DocsNav from "@/components/docs/navbar.astro";
+import Sidebar from "@/components/docs/sidebar.astro";
+import Button from "@/components/primitives/button.astro";
+import { SECTIONS } from "@/lib/constants";
 
-import '@/styles/global.css';
-const { title, description = 'Documentation for nozz/ui Components' } =
-  Astro.props;
+import Breadcrumb from "@/components/ui/breadcrumb.astro";
+
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  headings?: {
+    depth: number;
+    slug: string;
+    text: string;
+  }[];
+}
+
+const {
+  title,
+  description = "Documentation for nozz/ui Components",
+  headings,
+} = Astro.props;
+
+console.log(Astro.slots.has("on-this-page"));
 ---
 
 <script is:inline>
-  const getThemePreference = () => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+  const toggleTheme = () => {
+    const htmlEl = document.documentElement;
+    htmlEl.classList.toggle("dark");
   };
-  const isDark = getThemePreference() === 'dark';
-  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
 
-  if (typeof localStorage !== 'undefined') {
+  const getThemePreference = () => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const isDark = getThemePreference() === "dark";
+  document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+
+  if (typeof localStorage !== "undefined") {
     const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const isDark = document.documentElement.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
     });
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
     });
   }
 </script>
 
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-
 
     <link
       rel="icon"
@@ -47,23 +70,17 @@ const { title, description = 'Documentation for nozz/ui Components' } =
     />
     <link rel="apple-touch-icon" href="/images/icons/logo-base-256x256.png" />
 
-
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ui.nozz.dev" />
     <meta property="og:title" content={`${title} - nozz/ui`} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/images/icons/logo-base-1200x1200.png" />
-
+    <meta property="og:image" content="/images/og.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://ui.nozz.dev" />
     <meta name="twitter:title" content={`${title} - nozz/ui`} />
     <meta name="twitter:description" content={description} />
-    <meta
-      name="twitter:image"
-      content="/images/icons/logo-base-1200x1200.png"
-    />
-
+    <meta name="twitter:image" content="/images/og.png" />
 
     <meta
       name="keywords"
@@ -72,7 +89,6 @@ const { title, description = 'Documentation for nozz/ui Components' } =
 
     <meta name="generator" content={Astro.generator} />
     <title>{`${title} - nozz/ui`}</title>
-
 
     <link rel="preload" as="image" href="/images/icons/logo-base-256x256.png" />
   </head>
@@ -83,66 +99,106 @@ const { title, description = 'Documentation for nozz/ui Components' } =
         <Sidebar sections={SECTIONS} />
       </aside>
       <div
-        class="relative ml-0 min-h-screen gap-0 p-4 md:ml-[250px] md:p-6 lg:gap-10 xl:grid xl:grid-cols-[1fr,150px]"
+        class="relative ml-0 min-h-screen p-4 md:ml-[250px] md:p-6 xl:grid xl:grid-cols-[minmax(0,1fr),250px] xl:gap-8"
       >
-        <slot />
+        <div class="main-content prose prose-neutral dark:prose-invert">
+          <!-- Content title slot with fallback -->
+          <Breadcrumb
+            items={[
+              { title: "Documentation", href: "/docs" },
+              { title: title },
+            ]}
+            separator="dot"
+          />
+          <div class="relative border-b border-border py-8">
+            <h1
+              class="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-4"
+            >
+              <slot name="content-title">{title}</slot>
+            </h1>
 
-        <div class="flex justify-between mt-8 pt-4 border-t border-border">
-          {
-            SECTIONS.flatMap((section) => section.items).map(
-              (item, index, array) => {
-                const currentPath = Astro.url.pathname;
-                if (item.href === currentPath) {
-                  return (
-                    <div class="flex w-full">
-                      {index > 0 ? (
-                        <div class="flex w-full justify-between">
-                          <Button
-                            href={array[index - 1].href}
-                            variant="ghost"
-                            class="gap-2 text-sm md:text-base"
-                          >
-                            <span>←</span>
-                            <span class="hidden sm:inline">
-                              {array[index - 1].title}
-                            </span>
-                          </Button>
-                          {index < array.length - 1 && (
+            <p class="mt-2 text-muted-foreground text-lg max-w-[750px]">
+              {description}
+            </p>
+          </div>
+
+          <div class="py-8">
+            <slot />
+          </div>
+
+          <div class="flex justify-between mt-8 pt-4 border-t border-border">
+            {
+              SECTIONS.flatMap((section) => section.items).map(
+                (item, index, array) => {
+                  const currentPath = Astro.url.pathname;
+                  if (item.href === currentPath) {
+                    return (
+                      <div class="flex w-full">
+                        {index > 0 ? (
+                          <div class="flex w-full justify-between">
                             <Button
-                              href={array[index + 1].href}
+                              href={array[index - 1].href}
                               variant="ghost"
                               class="gap-2 text-sm md:text-base"
                             >
+                              <span>←</span>
                               <span class="hidden sm:inline">
-                                {array[index + 1].title}
+                                {array[index - 1].title}
                               </span>
-                              <span>→</span>
                             </Button>
-                          )}
-                        </div>
-                      ) : (
-                        <div class="flex w-full justify-end">
-                          {index < array.length - 1 && (
-                            <Button
-                              href={array[index + 1].href}
-                              variant="ghost"
-                              class="gap-2 text-sm md:text-base"
-                            >
-                              <span class="hidden sm:inline">
-                                {array[index + 1].title}
-                              </span>
-                              <span>→</span>
-                            </Button>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                return null;
-              }
-            )
-          }
+                            {index < array.length - 1 && (
+                              <Button
+                                href={array[index + 1].href}
+                                variant="ghost"
+                                class="gap-2 text-sm md:text-base"
+                              >
+                                <span class="hidden sm:inline">
+                                  {array[index + 1].title}
+                                </span>
+                                <span>→</span>
+                              </Button>
+                            )}
+                          </div>
+                        ) : (
+                          <div class="flex w-full justify-end">
+                            {index < array.length - 1 && (
+                              <Button
+                                href={array[index + 1].href}
+                                variant="ghost"
+                                class="gap-2 text-sm md:text-base"
+                              >
+                                <span class="hidden sm:inline">
+                                  {array[index + 1].title}
+                                </span>
+                                <span>→</span>
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                },
+              )
+            }
+          </div>
+        </div>
+
+        <!-- On this page section -->
+        <div class="as">
+          <div
+            class="sticky top-20 pl-8 max-h-[calc(100vh-5rem)] overflow-y-auto"
+          >
+            <div class="space-y-2">
+              <h2 class="text-sm font-semibold mb-4 text-foreground">
+                On this page
+              </h2>
+              <nav class="space-y-1 text-sm">
+                <slot name="on-this-page" />
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
     </main>

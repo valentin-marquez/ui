@@ -1,0 +1,68 @@
+---
+import type {
+  GetStaticPaths,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import {
+  getEntry,
+  render,
+  getCollection,
+  type CollectionEntry,
+} from "astro:content";
+import DocsLayout from "@/layouts/DocsLayout.astro";
+
+export const getStaticPaths = (async () => {
+  const docs = await getCollection("docs");
+  return docs.map((doc: CollectionEntry<"docs">) => ({
+    params: { slug: doc.data.slug },
+  }));
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+const { slug } = Astro.params as Params;
+
+if (!slug) {
+  return Astro.redirect("/docs");
+}
+
+const doc = await getEntry("docs", slug);
+
+if (!doc) {
+  throw new Error(`Doc not found: ${slug}`);
+}
+
+const { Content, headings } = await render(doc);
+---
+
+<DocsLayout
+  title={doc.data.title}
+  description={doc.data.description}
+  headings={headings}
+>
+  <div class="content">
+    <Content />
+  </div>
+
+  <Fragment slot="on-this-page">
+    <ul class="space-y-2 text-sm">
+      {
+        headings.map((heading: { depth: number; slug: any; text: unknown }) => (
+          <li
+            class={`${
+              heading.depth === 2 ? "font-medium" : "pl-4 text-muted-foreground"
+            }`}
+          >
+            <a
+              href={`#${heading.slug}`}
+              class="hover:text-foreground transition-colors"
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Fragment>
+</DocsLayout>

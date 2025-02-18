@@ -1,5 +1,8 @@
 # build output
 dist/
+.output/
+.cloudflare/
+.netlify/
 
 # generated types
 .astro/
@@ -16,9 +19,27 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+.env.development
 
 # macOS-specific files
 .DS_Store
+.wrangler
 
 # jetbrains setting folder
 .idea/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.history/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cloudflare specific
+functions/**/*.js
+
+

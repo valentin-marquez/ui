@@ -11,5 +11,11 @@
         "css": "css"
     },
     "editor.suggest.showStatusBar": true,
-    "tailwindCSS.emmetCompletions": true
+    "tailwindCSS.emmetCompletions": true,
+    "prettier.documentSelectors": [
+        "**/*.astro"
+    ],
+    "[astro]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

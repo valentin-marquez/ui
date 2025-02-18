@@ -1,0 +1,25 @@
+---
+import type { componentCategoryTypes } from "@/content/content.config";
+import type { z } from "astro/zod";
+
+import { Code } from "astro-expressive-code/components";
+
+interface Props {
+  component: string;
+  category: z.infer<typeof componentCategoryTypes>;
+}
+
+const { component, category } = Astro.props;
+
+const source = import.meta.glob("/src/components/**/*.astro", {
+  eager: true,
+  as: "raw",
+})[`/src/components/${category}/${component}.astro`];
+---
+
+<Code
+  class="max-h-[600px] overflow-x-auto overflow-y-auto rounded-md border border-border bg-code font-mono text-sm leading-relaxed scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border hover:scrollbar-thumb-border/80"
+  lang="astro"
+  code={source}
+  title={`src/components/ui/${component}.astro`}
+/>

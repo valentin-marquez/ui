@@ -1,0 +1,114 @@
+---
+import Button from "@/components/primitives/button.astro";
+import { Image } from "astro:assets";
+---
+
+<nav
+  class="sticky top-0 w-full border-b border-border h-16 z-50 bg-background/80 backdrop-blur-sm backdrop-saturate-150"
+>
+  <div class="container mx-auto h-full px-4 md:px-6 max-w-7xl">
+    <div class="h-full flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Toggle menu"
+          data-toggle-sidebar
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="4" x2="20" y1="12" y2="12"></line><line
+              x1="4"
+              x2="20"
+              y1="6"
+              y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </Button>
+
+        <Button
+          href="/"
+          class="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          variant="ghost"
+        >
+          <Image
+            src="/images/icons/logo-base-32x32.png"
+            alt="nozz/ui"
+            class="w-8 h-8"
+            width={200}
+            height={200}
+            widths={[200, 400, 600, 800, 1000]}
+          />
+          <span class="font-bold text-xl leading-none">nozz/ui</span>
+        </Button>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            {/* Icono Luna (modo claro) */}
+            <g class="inline dark:hidden">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </g>
+
+            {/* Icono Sol (modo oscuro) */}
+            <g class="hidden dark:inline">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </g>
+          </svg>
+        </Button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  class NavbarController {
+    constructor() {
+      this.init();
+    }
+
+    init() {
+      const toggleButton = document.querySelector("[data-toggle-sidebar]");
+      const sidebar = document.querySelector("nav[data-sidebar]");
+
+      toggleButton?.addEventListener("click", () => {
+        sidebar?.classList.toggle("translate-x-0");
+        sidebar?.classList.toggle("-translate-x-full");
+      });
+    }
+  }
+
+  new NavbarController();
+</script>
